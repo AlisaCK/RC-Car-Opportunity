@@ -407,11 +407,11 @@
 
 #define ENABLE_BAT true
 #define ENABLE_IMU false
-#define ENABLE_LIDAR false
+#define ENABLE_LIDAR true
 #define ENABLE_RC true
 
 #define ENABLE_US1 false
-#define ENABLE_US2 true
+#define ENABLE_US2 false
 #define ENABLE_US3 false
 #define ENABLE_US4 false
 
@@ -934,26 +934,74 @@ void loop()
   
   if (FORWARD_TRUE)
   {
+    steering_servo.write(90);
     thrust_servo.write(95);
     hi = 95;
-    Serial.print("hi= ");
+    Serial.print("forward_hi= ");
     Serial.println( hi);
   }
   else
   {
     if (LEFT_TRUE)
     {
-      steering_servo.write(75);
+      steering_servo.write(15);
+      thrust_servo.write(95);212
+      hi = 95;
+      Serial.print("left hi= ");
+      Serial.println( hi);
     }
     else if (!LEFT_TRUE && RIGHT_TRUE)
     {
-      steering_servo.write(135);
+      steering_servo.write(165);
+      thrust_servo.write(95);
+      hi = 95;
+      Serial.print("right hi= ");
+      Serial.println( hi);
     }
     else
-    {
-      thrust_servo.write(85);
+      {
+
+        boolean BACKWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
+        if (!BACKWARD_False)
+        {
+          steering_servo.write(90);
+          thrust_servo.write(85);
+          hi = 85;
+          Serial.print("hi= ");
+          Serial.println( hi);
+        }
+        else {
+          steering_servo.write(90);
+          thrust_servo.write(90);
+          hi = 90;
+          Serial.print("hi= ");
+          Serial.println( hi);
+        }
     }
   }
+
+//  boolean FORWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
+
+//  if (!FORWARD_False)
+//  {
+//    thrust_servo.write(95);
+//    hi = 95;
+//    Serial.print("hi= ");
+//    Serial.println( hi);
+//  }
+//  else {
+//    Serial.print("hi= ");
+//    Serial.println( hi);
+//  }
+  
+//  if (!BACKWARD_False)
+//  {
+//    thrust_servo.write(85);
+//    hi = 85;
+//    Serial.print("hi= ");
+//    Serial.println( hi);
+//  }
+  
   
 }
 
