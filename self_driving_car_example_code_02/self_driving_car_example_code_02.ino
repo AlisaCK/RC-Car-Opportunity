@@ -405,13 +405,13 @@
 // This defines whether or not to print to the serial terminal
 #define PRINT_TO_SERIAL true
 
-#define ENABLE_BAT false
+#define ENABLE_BAT true
 #define ENABLE_IMU false
-#define ENABLE_LIDAR true
-#define ENABLE_RC false
+#define ENABLE_LIDAR false
+#define ENABLE_RC true
 
 #define ENABLE_US1 false
-#define ENABLE_US2 false
+#define ENABLE_US2 true
 #define ENABLE_US3 false
 #define ENABLE_US4 false
 
@@ -657,7 +657,7 @@ void loop()
 
   // This measures the voltage at the Vin pin in millivolts which will correspond
   // to the current voltage of the 9 V battery powering the Arduino
-  vin_voltage = measure_vin_voltage();
+   vin_voltage = measure_vin_voltage();
 
   // If defined by the user, this prints the battery voltage to the serial output
   if ( PRINT_TO_SERIAL )
@@ -874,10 +874,10 @@ void loop()
 
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the thrust signal
-  rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 40000 );
+  rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 10000 );
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the steering signal
-  rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 40000 );
+  rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 10000 );
 
   // If defined by the user, this prints the thrust and steering PWM pulse
   // durations to the serial terminal
@@ -921,10 +921,40 @@ void loop()
   }
 
   // This sets the steering PWM signal to the current angle
-  steering_servo.write( steering_pwm_angle );
+  //steering_servo.write( steering_pwm_angle );
   // This sets the thrust PWM signal to the current angle
-  thrust_servo.write( thrust_pwm_angle );
+  //thrust_servo.write( thrust_pwm_angle );
 #endif
+
+  int hi = 0;
+  int hello = 0;
+  boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
+  boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
+  boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
+  
+  if (FORWARD_TRUE)
+  {
+    thrust_servo.write(95);
+    hi = 95;
+    Serial.print("hi= ");
+    Serial.println( hi);
+  }
+  else
+  {
+    if (LEFT_TRUE)
+    {
+      steering_servo.write(75);
+    }
+    else if (!LEFT_TRUE && RIGHT_TRUE)
+    {
+      steering_servo.write(135);
+    }
+    else
+    {
+      thrust_servo.write(85);
+    }
+  }
+  
 }
 
 
@@ -1112,5 +1142,6 @@ void led_error_status()
     delay(1000);
     
   }
-  
+
+
 }
