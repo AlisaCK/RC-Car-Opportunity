@@ -874,10 +874,10 @@ void loop()
 
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the thrust signal
-  rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 10000 );
+  rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 40000 );
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the steering signal
-  rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 10000 );
+  rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 40000 );
 
   // If defined by the user, this prints the thrust and steering PWM pulse
   // durations to the serial terminal
