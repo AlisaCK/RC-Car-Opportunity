@@ -406,14 +406,14 @@
 #define PRINT_TO_SERIAL true
 
 #define ENABLE_BAT true
-#define ENABLE_IMU false
+#define ENABLE_IMU true
 #define ENABLE_LIDAR true
 #define ENABLE_RC true
 
-#define ENABLE_US1 false
-#define ENABLE_US2 false
-#define ENABLE_US3 false
-#define ENABLE_US4 false
+#define ENABLE_US1 true
+#define ENABLE_US2 true 
+#define ENABLE_US3 true
+#define ENABLE_US4 true
 
 // This defines the pin number for the first status LED indicator
 #define LED_STATUS_PIN_1 40
@@ -928,54 +928,111 @@ void loop()
 
   int hi = 0;
   int hello = 0;
+  imu::Vector<3> euler_angles;
+  euler_angles = imu_sensor.getVector( Adafruit_BNO055::VECTOR_EULER );
   boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
   boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
   boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
   
   if (FORWARD_TRUE)
   {
-    steering_servo.write(90);
-    thrust_servo.write(95);
-    hi = 95;
-    Serial.print("forward_hi= ");
-    Serial.println( hi);
+    if(euler_angles.z() <= -60)
+    {
+      steering_servo.write(90);
+      thrust_servo.write(100);
+      hi = 100;
+      Serial.print("forward_hi= ");
+      Serial.println( hi);
+    }
+    else
+    {
+      steering_servo.write(90);
+      thrust_servo.write(95);
+      hi = 95;
+      Serial.print("forward_hi= ");
+      Serial.println( hi);
+    }
   }
   else
   {
     if (LEFT_TRUE)
     {
-      steering_servo.write(15);
-      thrust_servo.write(95);212
-      hi = 95;
-      Serial.print("left hi= ");
-      Serial.println( hi);
+      if(euler_angles.z() <= -60)
+      {
+        steering_servo.write(15);
+        thrust_servo.write(100);
+        hi = 100;
+        Serial.print("left hi= ");
+        Serial.println( hi);
+      }
+      else
+      {
+        steering_servo.write(15);
+        thrust_servo.write(95);
+        hi = 95;
+        Serial.print("left hi= ");
+        Serial.println( hi);
+      }
     }
     else if (!LEFT_TRUE && RIGHT_TRUE)
     {
-      steering_servo.write(165);
-      thrust_servo.write(95);
-      hi = 95;
-      Serial.print("right hi= ");
-      Serial.println( hi);
+      if(euler_angles.z() <= -60)
+      {
+        steering_servo.write(165);
+        thrust_servo.write(100);
+        hi = 100;
+        Serial.print("right hi= ");
+        Serial.println( hi);
+      }
+      else
+      {
+        steering_servo.write(165);
+        thrust_servo.write(95);
+        hi = 95;
+        Serial.print("right hi= ");
+        Serial.println( hi);
+      }
     }
     else
       {
-
         boolean BACKWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
         if (!BACKWARD_False)
         {
-          steering_servo.write(90);
-          thrust_servo.write(85);
-          hi = 85;
-          Serial.print("hi= ");
-          Serial.println( hi);
+          if(euler_angles.z() <= -60)
+          {
+            steering_servo.write(90);
+            thrust_servo.write(85);
+            hi = 85;
+            Serial.print("hi= ");
+            Serial.println( hi);
+          }
+          else
+          {
+            steering_servo.write(90);
+            thrust_servo.write(80);
+            hi = 80;
+            Serial.print("hi= ");
+            Serial.println( hi);
+          }
         }
-        else {
-          steering_servo.write(90);
-          thrust_servo.write(90);
-          hi = 90;
-          Serial.print("hi= ");
-          Serial.println( hi);
+        else 
+        {
+          if(euler_angles.z() <=60)
+          {
+            steering_servo.write(90);
+            thrust_servo.write(100);
+            hi = 100;
+            Serial.print("hi= ");
+            Serial.println( hi);
+          }
+          else
+          {
+            steering_servo.write(90);
+            thrust_servo.write(90);
+            hi = 90;
+            Serial.print("hi= ");
+            Serial.println( hi);
+          }
         }
     }
   }
