@@ -410,7 +410,7 @@
 #define ENABLE_LIDAR true
 #define ENABLE_RC true
 
-#define ENABLE_US1 true
+#define ENABLE_US1 false
 #define ENABLE_US2 true 
 #define ENABLE_US3 true
 #define ENABLE_US4 true
@@ -943,6 +943,7 @@ void loop()
       hi = 100;
       Serial.print("forward_hi= ");
       Serial.println( hi);
+      delay(1000);
     }
     else
     {
@@ -951,6 +952,7 @@ void loop()
       hi = 95;
       Serial.print("forward_hi= ");
       Serial.println( hi);
+      delay(1000);
     }
   }
   else
@@ -964,6 +966,7 @@ void loop()
         hi = 100;
         Serial.print("left hi= ");
         Serial.println( hi);
+        delay(1000);
       }
       else
       {
@@ -972,6 +975,7 @@ void loop()
         hi = 95;
         Serial.print("left hi= ");
         Serial.println( hi);
+        delay(1000);
       }
     }
     else if (!LEFT_TRUE && RIGHT_TRUE)
@@ -983,6 +987,7 @@ void loop()
         hi = 100;
         Serial.print("right hi= ");
         Serial.println( hi);
+        delay(1000);
       }
       else
       {
@@ -991,6 +996,7 @@ void loop()
         hi = 95;
         Serial.print("right hi= ");
         Serial.println( hi);
+        delay(1000);
       }
     }
     else
@@ -1005,6 +1011,7 @@ void loop()
             hi = 85;
             Serial.print("hi= ");
             Serial.println( hi);
+            delay(1000);
           }
           else
           {
@@ -1013,6 +1020,7 @@ void loop()
             hi = 80;
             Serial.print("hi= ");
             Serial.println( hi);
+            delay(1000);
           }
         }
         else 
@@ -1024,6 +1032,7 @@ void loop()
             hi = 100;
             Serial.print("hi= ");
             Serial.println( hi);
+            delay(1000);
           }
           else
           {
@@ -1032,34 +1041,11 @@ void loop()
             hi = 90;
             Serial.print("hi= ");
             Serial.println( hi);
+            delay(1000);
           }
         }
     }
   }
-
-//  boolean FORWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
-
-//  if (!FORWARD_False)
-//  {
-//    thrust_servo.write(95);
-//    hi = 95;
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-//  else {
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-  
-//  if (!BACKWARD_False)
-//  {
-//    thrust_servo.write(85);
-//    hi = 85;
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-  
-  
 }
 
 
