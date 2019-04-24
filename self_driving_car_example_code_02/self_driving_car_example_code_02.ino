@@ -641,6 +641,12 @@ void setup()
   thrust_servo.attach( ARDUINO_THRUST_PIN, THRUST_SERVO_MIN, THRUST_SERVO_MAX );
 #endif
 
+
+
+  digitalWrite( LED_STATUS_PIN_2, HIGH );
+  delay(10000);
+  digitalWrite( LED_STATUS_PIN_2, LOW );
+   
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -690,14 +696,14 @@ void loop()
     // This turns the first status LED to an on state
     digitalWrite( LED_STATUS_PIN_1, HIGH );
     // This turns the second status LED to an off state
-    digitalWrite( LED_STATUS_PIN_2, LOW );
+    //digitalWrite( LED_STATUS_PIN_2, LOW );
   }
   else if ( ( 6500 < vin_voltage ) && ( vin_voltage < 7000 ) )
   {
     // This turns the first status LED to an on state
     digitalWrite( LED_STATUS_PIN_1, HIGH );
     // This turns the second status LED to an on state
-    digitalWrite( LED_STATUS_PIN_2, HIGH );
+    //digitalWrite( LED_STATUS_PIN_2, HIGH );
   }
   else if ( ( 5500 < vin_voltage ) && ( vin_voltage < 6500 ) )
   {
@@ -709,7 +715,7 @@ void loop()
     // This turns the first status LED to an off state
     digitalWrite( LED_STATUS_PIN_1, LOW );
     // This turns the second status LED to an on state
-    digitalWrite( LED_STATUS_PIN_2, HIGH );
+    //digitalWrite( LED_STATUS_PIN_2, HIGH );
   }
 #endif
 
@@ -929,14 +935,17 @@ void loop()
   //thrust_servo.write( thrust_pwm_angle );
 #endif
 
-  
+//---------------------------
+//CHEVY OPPORTUNITY BASE CODE 
+//--------------------------- 
 
       int hi = 0;
       int hello = 0;
       boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
       boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
       boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
-          if (FORWARD_TRUE)
+      //Code to check in front
+      if (FORWARD_TRUE)
       {
         steering_servo.write(90);
         hi = 95;
@@ -944,9 +953,9 @@ void loop()
         Serial.print("forward_hi= ");
         Serial.println( hi);
       }
-      else
+      else //If forward is blocked
       {
-        if (LEFT_TRUE)
+        if (LEFT_TRUE) //Check left first
         {
           steering_servo.write(15);
           hi = 95;
@@ -954,7 +963,7 @@ void loop()
           Serial.print("left hi= ");
           Serial.println( hi);
         }
-        else if (!LEFT_TRUE && RIGHT_TRUE)
+        else if (!LEFT_TRUE && RIGHT_TRUE) //Check right next
         {
           steering_servo.write(165);
           hi = 95;
@@ -962,61 +971,40 @@ void loop()
           Serial.print("right hi= ");
           Serial.println( hi);
         }
-        else
+        else //If everything is blocked check behind you
           {
-    
-            boolean BACKWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
-            //boolean BACKWARD_False = false;
-            if (!BACKWARD_False)
+            boolean BACKWARD_TRUE = (measure_optical_distance() > 350 || (measure_optical_distance() == -1)); 
+            if (BACKWARD_TRUE)
             {
-              
               steering_servo.write(90);
               thrust_servo.write(90);
               Serial.print("hi= ");
               Serial.println( 90);
-              delay(250);
-              thrust_servo.write(85);
+              
+              delay(500);
+              
               hi = 85;
+              thrust_servo.write(hi);
               Serial.print("hi= ");
               Serial.println( hi);
             }
             else {
-              steering_servo.write(90);
-              thrust_servo.write(90);
               hi = 90;
+              steering_servo.write(90);
+              thrust_servo.write(hi);
+              
               Serial.print("hi= ");
               Serial.println( hi);
+
+              led_error_status(2); 
             }
         }
-      }
-
-  
-  
-
-//  boolean FORWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
-
-//  if (!FORWARD_False)
-//  {
-//    thrust_servo.write(95);
-//    hi = 95;
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-//  else {
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-  
-//  if (!BACKWARD_False)
-//  {
-//    thrust_servo.write(85);
-//    hi = 85;
-//    Serial.print("hi= ");
-//    Serial.println( hi);
-//  }
-  
-  
+    }
 }
+
+//------------------
+// END OF BASE CODE
+//------------------
 
 
 
@@ -1159,7 +1147,7 @@ unsigned int measure_optical_distance()
   optical_sensor.rangingTest( &optical_distance_object, false);
 
   // This initializes the output distance from the optical sensor
-  unsigned int tof_distance = 0;
+  unsigned int tof_distance = -1;
 
   // If the sensor isn't out of range, this returns the measured distance
   if ( optical_distance_object.RangeStatus != 4 )
@@ -1203,6 +1191,33 @@ void led_error_status()
     delay(1000);
     
   }
+}
 
+  void led_error_status(int runs)
+{
+  
+  // This function causes the LEDs to flash indicating that an error has
+  // occurred.  This will stop the program execution.
 
+  // This runs an indefinite while loop flashing the LEDs
+  for(int i = 0; i < runs; i++)
+  {
+    
+    // This turns the first status LED to an on state
+    digitalWrite( LED_STATUS_PIN_1, HIGH );
+    // This turns the second status LED to an off state
+    digitalWrite( LED_STATUS_PIN_2, LOW );
+      
+    // This pauses for a second
+    delay(1000);
+
+    // This turns the first status LED to an off state
+    digitalWrite( LED_STATUS_PIN_1, LOW );
+    // This turns the second status LED to an on state
+    digitalWrite( LED_STATUS_PIN_2, HIGH );
+
+    // This pauses for a second
+    delay(1000);
+    
+  }
 }
