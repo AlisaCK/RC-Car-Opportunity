@@ -411,9 +411,9 @@
 #define ENABLE_RC true
 
 #define ENABLE_US1 false
-#define ENABLE_US2 false
-#define ENABLE_US3 false
-#define ENABLE_US4 false
+#define ENABLE_US2 true
+#define ENABLE_US3 true
+#define ENABLE_US4 true
 
 // This defines the pin number for the first status LED indicator
 #define LED_STATUS_PIN_1 40
@@ -508,7 +508,7 @@ imu::Vector<3> linear_acceleration;
 unsigned long rc_steering_pulse_duration;
 // This initializes a variable to store the thrust servo signal
 // pulse duration
-unsigned long rc_thrust_pulse_duration;
+//unsigned long rc_thrust_pulse_duration;
 
 // This creates the steering servo object
 Servo steering_servo;
@@ -646,6 +646,9 @@ void setup()
 //////////////////////////////////////////////////////////////////////////////////
 // Arduino Program Main Loop                                                    //
 //////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 void loop()
 {
@@ -874,26 +877,26 @@ void loop()
 
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the thrust signal
-  rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 40000 );
+  //rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 40000 );
   // This measures the pulse duration of the PWM signal from the radio control
   // receiver controlling the steering signal
-  rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 40000 );
+  //rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 40000 );
 
   // If defined by the user, this prints the thrust and steering PWM pulse
   // durations to the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This displays the RC receiver drive pulse duration
-    Serial.print("rc_thrust_pulse_duration = ");
-    Serial.print( rc_thrust_pulse_duration );
-    Serial.println(" [us]");
-    // This displays the RC receiver steering pulse duration
-    Serial.print("rc_steering_pulse_duration = ");
-    Serial.print( rc_steering_pulse_duration );
-    Serial.println(" [us]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This displays the RC receiver drive pulse duration
+//    Serial.print("rc_thrust_pulse_duration = ");
+//    Serial.print( rc_thrust_pulse_duration );
+//    Serial.println(" [us]");
+//    // This displays the RC receiver steering pulse duration
+//    Serial.print("rc_steering_pulse_duration = ");
+//    Serial.print( rc_steering_pulse_duration );
+//    Serial.println(" [us]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Control the Steering Servo and Thrust Motor                                //
@@ -901,23 +904,23 @@ void loop()
 
   // This maps the pulse length from the measured remote conrol thrust PWM signal
   // to an angle between 0 and 180 degrees to send to the thrust motor
-  int thrust_pwm_angle = map( rc_thrust_pulse_duration, 500, 2500, 0, 180 );
-  // This maps the pulse length from the measured remote conrol steering PWM signal
-  // to an angle between 0 and 180 degrees to send to the steering servo
-  int steering_pwm_angle = map( rc_steering_pulse_duration, 500, 2500, 0, 180 );
+//  int thrust_pwm_angle = map( rc_thrust_pulse_duration, 500, 2500, 0, 180 );
+//  // This maps the pulse length from the measured remote conrol steering PWM signal
+//  // to an angle between 0 and 180 degrees to send to the steering servo
+//  int steering_pwm_angle = map( rc_steering_pulse_duration, 500, 2500, 0, 180 );
 
   // If defined by the user, this prints the current thrust and steering PWM angles
   // to the serial terminal
   if ( PRINT_TO_SERIAL )
   {
     // This prints the thrust motor PWM angle to the serial terminal
-    Serial.print("thrust_pwm_angle = ");
-    Serial.println( thrust_pwm_angle );
+    //Serial.print("thrust_pwm_angle = ");
+    //Serial.println( thrust_pwm_angle );
     // This prints the steering servo PWM angle to the serial terminal
-    Serial.print("steering_pwm_angle = ");
-    Serial.println(steering_pwm_angle);
+    //Serial.print("steering_pwm_angle = ");
+    //Serial.println(steering_pwm_angle);
     // This prints a new line to the serial terminal
-    Serial.println("");
+    //Serial.println("");
   }
 
   // This sets the steering PWM signal to the current angle
@@ -926,59 +929,69 @@ void loop()
   //thrust_servo.write( thrust_pwm_angle );
 #endif
 
-  int hi = 0;
-  int hello = 0;
-  boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
-  boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
-  boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
   
-  if (FORWARD_TRUE)
-  {
-    steering_servo.write(90);
-    thrust_servo.write(95);
-    hi = 95;
-    Serial.print("forward_hi= ");
-    Serial.println( hi);
-  }
-  else
-  {
-    if (LEFT_TRUE)
-    {
-      steering_servo.write(15);
-      thrust_servo.write(95);212
-      hi = 95;
-      Serial.print("left hi= ");
-      Serial.println( hi);
-    }
-    else if (!LEFT_TRUE && RIGHT_TRUE)
-    {
-      steering_servo.write(165);
-      thrust_servo.write(95);
-      hi = 95;
-      Serial.print("right hi= ");
-      Serial.println( hi);
-    }
-    else
-      {
 
-        boolean BACKWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
-        if (!BACKWARD_False)
+      int hi = 0;
+      int hello = 0;
+      boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
+      boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
+      boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
+          if (FORWARD_TRUE)
+      {
+        steering_servo.write(90);
+        hi = 95;
+        thrust_servo.write(hi);
+        Serial.print("forward_hi= ");
+        Serial.println( hi);
+      }
+      else
+      {
+        if (LEFT_TRUE)
         {
-          steering_servo.write(90);
-          thrust_servo.write(85);
-          hi = 85;
-          Serial.print("hi= ");
+          steering_servo.write(15);
+          hi = 95;
+          thrust_servo.write(hi);
+          Serial.print("left hi= ");
           Serial.println( hi);
         }
-        else {
-          steering_servo.write(90);
-          thrust_servo.write(90);
-          hi = 90;
-          Serial.print("hi= ");
+        else if (!LEFT_TRUE && RIGHT_TRUE)
+        {
+          steering_servo.write(165);
+          hi = 95;
+          thrust_servo.write(hi);
+          Serial.print("right hi= ");
           Serial.println( hi);
         }
-    }
-  }
+        else
+          {
+    
+            boolean BACKWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
+            //boolean BACKWARD_False = false;
+            if (!BACKWARD_False)
+            {
+              
+              steering_servo.write(90);
+              thrust_servo.write(90);
+              Serial.print("hi= ");
+              Serial.println( 90);
+              delay(250);
+              thrust_servo.write(85);
+              hi = 85;
+              Serial.print("hi= ");
+              Serial.println( hi);
+            }
+            else {
+              steering_servo.write(90);
+              thrust_servo.write(90);
+              hi = 90;
+              Serial.print("hi= ");
+              Serial.println( hi);
+            }
+        }
+      }
+
+  
+  
 
 //  boolean FORWARD_False =(measure_optical_distance() < 350 && measure_optical_distance() > 70); 
 
