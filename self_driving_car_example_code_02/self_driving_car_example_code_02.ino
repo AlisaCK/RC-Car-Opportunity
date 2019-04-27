@@ -946,12 +946,19 @@ void loop()
       boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
       //Code to check in front
       if (FORWARD_TRUE)
-      {
+      {    
         steering_servo.write(90);
         hi = 95;
         thrust_servo.write(hi);
         Serial.print("forward_hi= ");
         Serial.println( hi);
+
+        delay(550);
+        
+        thrust_servo.write(90);
+        Serial.print("off= ");
+        Serial.println(90);
+        
       }
       else //If forward is blocked
       {
@@ -962,14 +969,27 @@ void loop()
           thrust_servo.write(hi);
           Serial.print("left hi= ");
           Serial.println( hi);
+
+          delay(550);
+        
+          thrust_servo.write(90);
+          Serial.print("hi= ");
+          Serial.println(90);
         }
         else if (!LEFT_TRUE && RIGHT_TRUE) //Check right next
         {
+          
           steering_servo.write(165);
           hi = 95;
           thrust_servo.write(hi);
           Serial.print("right hi= ");
           Serial.println( hi);
+          
+          delay(550);
+        
+          thrust_servo.write(90);
+          Serial.print("hi= ");
+          Serial.println(90);
         }
         else //If everything is blocked check behind you
           {
@@ -981,7 +1001,7 @@ void loop()
               Serial.print("hi= ");
               Serial.println( 90);
               
-              delay(500);
+              delay(550);
               
               hi = 85;
               thrust_servo.write(hi);
