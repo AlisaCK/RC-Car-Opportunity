@@ -723,75 +723,75 @@ void loop()
   // Measure Distances with Ultrasonic Sensors                                  //
   ////////////////////////////////////////////////////////////////////////////////
 
-#if ENABLE_US1
-  // This measures the distance in millimeters from the first
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_1, ULTRASONIC_ECHO_PIN_1 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the first ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_1 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-  }
-#endif
-
-#if ENABLE_US2
-  // This measures the distance in millimeters from the second
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the second ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_2 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-  }
-#endif
-
-#if ENABLE_US3
-  // This measures the distance in millimeters from the third
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the third ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_3 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-  }
-#endif
-
-#if ENABLE_US4
-  // This measures the distance in millimeters from the fourth
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the fourth ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_4 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
-#endif
+//#if ENABLE_US1
+//  // This measures the distance in millimeters from the first
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_1, ULTRASONIC_ECHO_PIN_1 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the first ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_1 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//  }
+//#endif
+//
+//#if ENABLE_US2
+//  // This measures the distance in millimeters from the second
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the second ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_2 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//  }
+//#endif
+//
+//#if ENABLE_US3
+//  // This measures the distance in millimeters from the third
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the third ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_3 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//  }
+//#endif
+//
+//#if ENABLE_US4
+//  // This measures the distance in millimeters from the fourth
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the fourth ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_4 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
+//#endif
 
 #if ENABLE_LIDAR
   ////////////////////////////////////////////////////////////////////////////////
@@ -876,76 +876,18 @@ void loop()
 #endif
 
 
-#if ENABLE_RC
-  ////////////////////////////////////////////////////////////////////////////////
-  // Measure Signal from Remote Control Radio                                   //
-  ////////////////////////////////////////////////////////////////////////////////
-
-  // This measures the pulse duration of the PWM signal from the radio control
-  // receiver controlling the thrust signal
-  //rc_thrust_pulse_duration = pulseIn( RC_THRUST_PIN, HIGH, 40000 );
-  // This measures the pulse duration of the PWM signal from the radio control
-  // receiver controlling the steering signal
-  //rc_steering_pulse_duration = pulseIn( RC_STEERING_PIN, HIGH, 40000 );
-
-  // If defined by the user, this prints the thrust and steering PWM pulse
-  // durations to the serial terminal
-//  if ( PRINT_TO_SERIAL )
-//  {
-//    // This displays the RC receiver drive pulse duration
-//    Serial.print("rc_thrust_pulse_duration = ");
-//    Serial.print( rc_thrust_pulse_duration );
-//    Serial.println(" [us]");
-//    // This displays the RC receiver steering pulse duration
-//    Serial.print("rc_steering_pulse_duration = ");
-//    Serial.print( rc_steering_pulse_duration );
-//    Serial.println(" [us]");
-//    // This prints a new line to the serial terminal
-//    Serial.println("");
-//  }
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Control the Steering Servo and Thrust Motor                                //
-  ////////////////////////////////////////////////////////////////////////////////
-
-  // This maps the pulse length from the measured remote conrol thrust PWM signal
-  // to an angle between 0 and 180 degrees to send to the thrust motor
-//  int thrust_pwm_angle = map( rc_thrust_pulse_duration, 500, 2500, 0, 180 );
-//  // This maps the pulse length from the measured remote conrol steering PWM signal
-//  // to an angle between 0 and 180 degrees to send to the steering servo
-//  int steering_pwm_angle = map( rc_steering_pulse_duration, 500, 2500, 0, 180 );
-
-  // If defined by the user, this prints the current thrust and steering PWM angles
-  // to the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the thrust motor PWM angle to the serial terminal
-    //Serial.print("thrust_pwm_angle = ");
-    //Serial.println( thrust_pwm_angle );
-    // This prints the steering servo PWM angle to the serial terminal
-    //Serial.print("steering_pwm_angle = ");
-    //Serial.println(steering_pwm_angle);
-    // This prints a new line to the serial terminal
-    //Serial.println("");
-  }
-
-  // This sets the steering PWM signal to the current angle
-  //steering_servo.write( steering_pwm_angle );
-  // This sets the thrust PWM signal to the current angle
-  //thrust_servo.write( thrust_pwm_angle );
-#endif
 
 //---------------------------
 //CHEVY OPPORTUNITY BASE CODE 
 //--------------------------- 
 
       int hi = 0;
-      int hello = 0;
-      boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
-      boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
-      boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
+      //boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
+     // boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
+      //boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
+      
       //Code to check in front
-      if (FORWARD_TRUE)
+      if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300)
       {    
         steering_servo.write(90);
         hi = 95;
@@ -962,7 +904,7 @@ void loop()
       }
       else //If forward is blocked
       {
-        if (LEFT_TRUE) //Check left first
+        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300) //Check left first
         {
           steering_servo.write(15);
           hi = 95;
@@ -973,10 +915,10 @@ void loop()
           delay(550);
         
           thrust_servo.write(90);
-          Serial.print("hi= ");
+          Serial.print("off= ");
           Serial.println(90);
         }
-        else if (!LEFT_TRUE && RIGHT_TRUE) //Check right next
+        else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300)) //Check right next
         {
           
           steering_servo.write(165);
@@ -988,7 +930,7 @@ void loop()
           delay(550);
         
           thrust_servo.write(90);
-          Serial.print("hi= ");
+          Serial.print("off= ");
           Serial.println(90);
         }
         else //If everything is blocked check behind you
@@ -998,7 +940,7 @@ void loop()
             {
               steering_servo.write(90);
               thrust_servo.write(90);
-              Serial.print("hi= ");
+              Serial.print("off= ");
               Serial.println( 90);
               
               delay(550);
@@ -1104,7 +1046,7 @@ unsigned int measure_ultrasonic_distance( int trigger_pin, int echo_pin )
   // sensors in units of millimeters.
 
   // This is the number of instances to average the distance measurement over
-  int sample_number = 5;
+  int sample_number = 3;
 
   // This initializes an indexing variable for counting the number of
   // distance measurement samples
