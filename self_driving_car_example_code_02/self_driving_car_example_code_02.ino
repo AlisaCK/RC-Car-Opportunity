@@ -882,12 +882,12 @@ void loop()
 //--------------------------- 
 
       int hi = 0;
-      //boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300);
-     // boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300);
-      //boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300);
+      //boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 500);
+     // boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 500);
+      //boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 500);
       
       //Code to check in front
-      if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 300)
+      if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
       {    
         steering_servo.write(90);
         hi = 95;
@@ -895,60 +895,67 @@ void loop()
         Serial.print("forward_hi= ");
         Serial.println( hi);
 
-        delay(550);
-        
-        thrust_servo.write(90);
-        Serial.print("off= ");
-        Serial.println(90);
+//        delay(325);
+//        
+//        thrust_servo.write(90);
+//        Serial.print("off= ");
+//        Serial.println(90);
+//
+//        delay(550);
         
       }
       else //If forward is blocked
       {
-        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300) //Check left first
+        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) //Check left first
         {
-          steering_servo.write(15);
+          steering_servo.write(10);
           hi = 95;
           thrust_servo.write(hi);
           Serial.print("left hi= ");
           Serial.println( hi);
 
-          delay(550);
-        
-          thrust_servo.write(90);
-          Serial.print("off= ");
-          Serial.println(90);
+//          delay(600);
+//        
+//          thrust_servo.write(90);
+//          Serial.print("off= ");
+//          Serial.println(90);
+//
+//          delay(550);
         }
-        else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 300) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 300)) //Check right next
+        else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700)) //Check right next
         {
           
-          steering_servo.write(165);
+          steering_servo.write(175);
           hi = 95;
           thrust_servo.write(hi);
           Serial.print("right hi= ");
           Serial.println( hi);
           
-          delay(550);
-        
-          thrust_servo.write(90);
-          Serial.print("off= ");
-          Serial.println(90);
+//          delay(600);
+//        
+//          thrust_servo.write(90);
+//          Serial.print("off= ");
+//          Serial.println(90);
+//
+//          delay(550);
         }
         else //If everything is blocked check behind you
           {
             boolean BACKWARD_TRUE = (measure_optical_distance() > 350 || (measure_optical_distance() == -1)); 
             if (BACKWARD_TRUE)
             {
-              steering_servo.write(90);
-              thrust_servo.write(90);
-              Serial.print("off= ");
-              Serial.println( 90);
-              
-              delay(550);
+//              steering_servo.write(90);
+//              thrust_servo.write(90);
+//              Serial.print("off= ");
+//              Serial.println( 90);
+//              
+//              delay(250);
               
               hi = 85;
               thrust_servo.write(hi);
-              Serial.print("hi= ");
+              Serial.print("backwards_hi= ");
               Serial.println( hi);
+
             }
             else {
               hi = 90;
