@@ -526,7 +526,7 @@ void setup()
   ////////////////////////////////////////////////////////////////////////////////
   // Initialize the Serial Connection                                           //
   ////////////////////////////////////////////////////////////////////////////////
-
+  
   // If defined by the user to print to the serial termina, this initializes the
   // serial output
   if ( PRINT_TO_SERIAL )
@@ -646,7 +646,6 @@ void setup()
   digitalWrite( LED_STATUS_PIN_2, HIGH );
   delay(10000);
   digitalWrite( LED_STATUS_PIN_2, LOW );
-   
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -881,7 +880,7 @@ void loop()
 //CHEVY OPPORTUNITY BASE CODE 
 //--------------------------- 
 
-      int hi = 0;
+      double thrust = 0;
       //boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 500);
      // boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 500);
       //boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 500);
@@ -890,10 +889,10 @@ void loop()
       if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
       {    
         steering_servo.write(90);
-        hi = 95;
-        thrust_servo.write(hi);
-        Serial.print("forward_hi= ");
-        Serial.println( hi);
+        thrust = 95.5;
+        thrust_servo.write(thrust);
+        Serial.print("forward_thrust= ");
+        Serial.println( thrust);
 
 //        delay(325);
 //        
@@ -908,11 +907,11 @@ void loop()
       {
         if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) //Check left first
         {
-          steering_servo.write(10);
-          hi = 95;
-          thrust_servo.write(hi);
-          Serial.print("left hi= ");
-          Serial.println( hi);
+          steering_servo.write(0);
+          thrust = 97;
+          thrust_servo.write(thrust);
+          Serial.print("left_thrust= ");
+          Serial.println( thrust);
 
 //          delay(600);
 //        
@@ -925,11 +924,11 @@ void loop()
         else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700)) //Check right next
         {
           
-          steering_servo.write(175);
-          hi = 95;
-          thrust_servo.write(hi);
-          Serial.print("right hi= ");
-          Serial.println( hi);
+          steering_servo.write(180);
+          thrust = 97;
+          thrust_servo.write(thrust);
+          Serial.print("right_thrust= ");
+          Serial.println( thrust );
           
 //          delay(600);
 //        
@@ -951,19 +950,19 @@ void loop()
 //              
 //              delay(250);
               
-              hi = 85;
-              thrust_servo.write(hi);
-              Serial.print("backwards_hi= ");
-              Serial.println( hi);
+              thrust = 85;
+              thrust_servo.write(thrust);
+              Serial.print("backwards_thrust= ");
+              Serial.println( thrust);
 
             }
             else {
-              hi = 90;
+              thrust = 90;
               steering_servo.write(90);
-              thrust_servo.write(hi);
+              thrust_servo.write( thrust );
               
-              Serial.print("hi= ");
-              Serial.println( hi);
+              Serial.print("thrust= ");
+              Serial.println( thrust );
 
               led_error_status(2); 
             }
@@ -1049,11 +1048,12 @@ unsigned int measure_vin_voltage()
 unsigned int measure_ultrasonic_distance( int trigger_pin, int echo_pin )
 {
 
+  long startMillis = millis(); 
   // This function returns the distance measured by the ultrasonic distance
   // sensors in units of millimeters.
 
   // This is the number of instances to average the distance measurement over
-  int sample_number = 3;
+  int sample_number = 2;
 
   // This initializes an indexing variable for counting the number of
   // distance measurement samples
@@ -1079,19 +1079,31 @@ unsigned int measure_ultrasonic_distance( int trigger_pin, int echo_pin )
     digitalWrite( trigger_pin, HIGH );
     // This pauses for 10 microseconds to ensure that the ultrasonic sensor
     // fully triggers
+    
     delayMicroseconds( 10 );
+    
     // This sets the trigger pin to low so that the ultrasonic sensor will
     // only trigger a single time
     digitalWrite( trigger_pin, LOW );
   
     // This reads the echo pin and returns the travel time in microseconds
     // and adds it to the running sum
-    echo_duration += pulseIn( echo_pin, HIGH );
 
-    // This pauses for 10 milliseconds to ensure that any echos don't
-    // contaminate the next measurement
-    delay( 10 );
 
+    long currentMillis = millis();
+    if(startMillis - currentMillis >= 50)
+    {
+        echo_duration += 50;
+        startMillis = currentMillis; 
+    }
+    else
+    {
+        echo_duration += pulseIn( echo_pin, HIGH );
+
+        // This pauses for 10 milliseconds to ensure that any echos don't
+        // contaminate the next measurement
+       delay( 10 );
+    }
   }
 
   // This calculates the distance in millimeters by averageing over the
