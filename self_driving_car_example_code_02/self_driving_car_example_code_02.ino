@@ -406,7 +406,7 @@
 #define PRINT_TO_SERIAL true
 
 #define ENABLE_BAT true
-#define ENABLE_IMU false
+#define ENABLE_IMU true
 #define ENABLE_LIDAR true
 #define ENABLE_RC true
 
@@ -500,6 +500,7 @@ imu::Vector<3> euler_angles;
 // This initializes a variable to store the linear acceleration 
 // measured by the IMU
 imu::Vector<3> linear_acceleration;
+unsigned int x_goal;
 #endif
 
 #if ENABLE_RC
@@ -625,6 +626,9 @@ void setup()
     }
   }
 
+    
+  
+
   // This tells the BNO055 inertial measurement unit to use the time control of
   // the Arduino
   imu_sensor.setExtCrystalUse( true );
@@ -654,6 +658,7 @@ void setup()
 
 
 
+int first_five = 0; 
 
 void loop()
 {
@@ -845,6 +850,17 @@ void loop()
     // This prints a new line to the serial terminal
     Serial.println("");
   }
+  if(first_five <= 5)
+  {
+    
+    Serial.print("x_goal is beign set");
+      
+    euler_angles = imu_sensor.getVector( Adafruit_BNO055::VECTOR_EULER );
+    
+    x_goal = euler_angles.x();
+    Serial.print(x_goal);
+    first_five = first_five + 1;
+  }
 
   // This collects a measurement of the linear acceleration (with gravity removed)
   // from the BNO055 inertial measurement unit in units of m/s^2
@@ -881,20 +897,36 @@ void loop()
 //--------------------------- 
 
       double thrust = 0;
-      
+      int steer = 90;
       //Code to check in front
       if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
       {    
-        steering_servo.write(90);
+
+        
+        if(euler_angles.x() < 180)
+        {
+          steer = 60;
+        }
+        else
+        {
+          steer = 120;
+        }
+        Serial.print("x_goal= ");
+        Serial.println(x_goal % 360 );
+        Serial.print("steer= ");
+        Serial.println( steer);
+        steering_servo.write(steer);
         thrust = 95;
         thrust_servo.write(thrust);
         Serial.print("forward_thrust= ");
         Serial.println( thrust);
+        
+        
       }
       else //If forward is blocked
       {
         //check left first
-        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) 
+        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700 ) 
         {
             //check backwards, if backwards is empty then:
             if((measure_optical_distance() > 350 || (measure_optical_distance() == -1)))
