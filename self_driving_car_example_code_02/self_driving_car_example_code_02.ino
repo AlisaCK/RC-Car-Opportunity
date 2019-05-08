@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////
+ //////////////////////////////////////////////////////////////////////////////////
 // Program Information                                                          //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -881,80 +881,45 @@ void loop()
 //--------------------------- 
 
       double thrust = 0;
-      //boolean FORWARD_TRUE =(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 500);
-     // boolean LEFT_TRUE = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 500);
-      //boolean RIGHT_TRUE  = (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 500);
       
       //Code to check in front
       if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
       {    
         steering_servo.write(90);
-        thrust = 95.5;
+        thrust = 97;
         thrust_servo.write(thrust);
         Serial.print("forward_thrust= ");
         Serial.println( thrust);
-
-//        delay(325);
-//        
-//        thrust_servo.write(90);
-//        Serial.print("off= ");
-//        Serial.println(90);
-//
-//        delay(550);
-        
       }
       else //If forward is blocked
       {
         if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) //Check left first
         {
-          steering_servo.write(0);
-          thrust = 97;
+          steering_servo.write(15);
+          thrust = 96;
           thrust_servo.write(thrust);
           Serial.print("left_thrust= ");
           Serial.println( thrust);
-
-//          delay(600);
-//        
-//          thrust_servo.write(90);
-//          Serial.print("off= ");
-//          Serial.println(90);
-//
-//          delay(550);
         }
         else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700)) //Check right next
         {
           
-          steering_servo.write(180);
-          thrust = 97;
+          steering_servo.write(165);
+          thrust = 96;
           thrust_servo.write(thrust);
           Serial.print("right_thrust= ");
           Serial.println( thrust );
-          
-//          delay(600);
-//        
-//          thrust_servo.write(90);
-//          Serial.print("off= ");
-//          Serial.println(90);
-//
-//          delay(550);
+    
         }
         else //If everything is blocked check behind you
           {
             boolean BACKWARD_TRUE = (measure_optical_distance() > 350 || (measure_optical_distance() == -1)); 
             if (BACKWARD_TRUE)
-            {
-//              steering_servo.write(90);
-//              thrust_servo.write(90);
-//              Serial.print("off= ");
-//              Serial.println( 90);
-//              
-//              delay(250);
-              
+            { 
               thrust = 85;
               thrust_servo.write(thrust);
               Serial.print("backwards_thrust= ");
               Serial.println( thrust);
-
             }
             else {
               thrust = 90;
