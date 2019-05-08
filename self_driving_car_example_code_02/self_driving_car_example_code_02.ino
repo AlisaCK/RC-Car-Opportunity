@@ -739,58 +739,58 @@ void loop()
 //  }
 //#endif
 //
-//#if ENABLE_US2
-//  // This measures the distance in millimeters from the second
-//  // ultrasonic distance sensor
-//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
-//
-//  // If defind by the user, this displays the ultrasonic distance measurement to
-//  // the serial terminal
-//  if ( PRINT_TO_SERIAL )
-//  {
-//    // This prints the distance measured by the second ultrasonic distance sensor
-//    // to the serial monitor
-//    Serial.print("ultrasonic_distance_2 = ");
-//    Serial.print( ultrasonic_distance );
-//    Serial.println(" [mm]");
-//  }
-//#endif
-//
-//#if ENABLE_US3
-//  // This measures the distance in millimeters from the third
-//  // ultrasonic distance sensor
-//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
-//
-//  // If defind by the user, this displays the ultrasonic distance measurement to
-//  // the serial terminal
-//  if ( PRINT_TO_SERIAL )
-//  {
-//    // This prints the distance measured by the third ultrasonic distance sensor
-//    // to the serial monitor
-//    Serial.print("ultrasonic_distance_3 = ");
-//    Serial.print( ultrasonic_distance );
-//    Serial.println(" [mm]");
-//  }
-//#endif
-//
-//#if ENABLE_US4
-//  // This measures the distance in millimeters from the fourth
-//  // ultrasonic distance sensor
-//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
-//
-//  // If defind by the user, this displays the ultrasonic distance measurement to
-//  // the serial terminal
-//  if ( PRINT_TO_SERIAL )
-//  {
-//    // This prints the distance measured by the fourth ultrasonic distance sensor
-//    // to the serial monitor
-//    Serial.print("ultrasonic_distance_4 = ");
-//    Serial.print( ultrasonic_distance );
-//    Serial.println(" [mm]");
-//    // This prints a new line to the serial terminal
-//    Serial.println("");
-//  }
-//#endif
+#if ENABLE_US2
+  // This measures the distance in millimeters from the second
+  // ultrasonic distance sensor
+  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
+
+  // If defind by the user, this displays the ultrasonic distance measurement to
+  // the serial terminal
+  if ( PRINT_TO_SERIAL )
+  {
+    // This prints the distance measured by the second ultrasonic distance sensor
+    // to the serial monitor
+    Serial.print("ultrasonic_distance_2 = ");
+    Serial.print( ultrasonic_distance );
+    Serial.println(" [mm]");
+  }
+#endif
+
+#if ENABLE_US3
+  // This measures the distance in millimeters from the third
+  // ultrasonic distance sensor
+  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
+
+  // If defind by the user, this displays the ultrasonic distance measurement to
+  // the serial terminal
+  if ( PRINT_TO_SERIAL )
+  {
+    // This prints the distance measured by the third ultrasonic distance sensor
+    // to the serial monitor
+    Serial.print("ultrasonic_distance_3 = ");
+    Serial.print( ultrasonic_distance );
+    Serial.println(" [mm]");
+  }
+#endif
+
+#if ENABLE_US4
+  // This measures the distance in millimeters from the fourth
+  // ultrasonic distance sensor
+  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
+
+  // If defind by the user, this displays the ultrasonic distance measurement to
+  // the serial terminal
+  if ( PRINT_TO_SERIAL )
+  {
+    // This prints the distance measured by the fourth ultrasonic distance sensor
+    // to the serial monitor
+    Serial.print("ultrasonic_distance_4 = ");
+    Serial.print( ultrasonic_distance );
+    Serial.println(" [mm]");
+    // This prints a new line to the serial terminal
+    Serial.println("");
+  }
+#endif
 
 #if ENABLE_LIDAR
   ////////////////////////////////////////////////////////////////////////////////
@@ -886,33 +886,107 @@ void loop()
       if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
       {    
         steering_servo.write(90);
-        thrust = 97;
+        thrust = 95;
         thrust_servo.write(thrust);
         Serial.print("forward_thrust= ");
         Serial.println( thrust);
       }
       else //If forward is blocked
       {
-        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) //Check left first
+        //check left first
+        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) 
         {
-          steering_servo.write(15);
-          thrust = 96;
-          thrust_servo.write(thrust);
-          Serial.print("left_thrust= ");
-          Serial.println( thrust);
+            //check backwards, if backwards is empty then:
+            if((measure_optical_distance() > 350 || (measure_optical_distance() == -1)))
+            {
+              //back the car up k-turn style
+              steering_servo.write(165);
+              thrust = 85;
+              thrust_servo.write(thrust);
+  
+              //wait .5s
+              delay(500);
+  
+              //shut car off
+              thrust = 90;
+              thrust_servo.write(thrust);
+  
+              //wait .5s
+              delay(500);
+            }
+            
+            //turn wheels left,and move forward
+            steering_servo.write(15);
+            thrust = 95;
+            thrust_servo.write(thrust);
+
+            //while right is blocked, move forward
+            while(!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700))
+            {
+                   steering_servo.write(90);
+                   thrust = 95;
+                   thrust_servo.write(thrust);
+            }
+
+            //shut off car again for .5s
+            thrust = 90;
+            thrust_servo.write(thrust);
+            
+            delay(500);
+
+            //turn right same amount you turned left to go back straight
+            steering_servo.write(165);
+            thrust = 95;
+            thrust_servo.write(thrust);
         }
         else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700)) //Check right next
         {
-          
-          steering_servo.write(165);
-          thrust = 96;
-          thrust_servo.write(thrust);
-          Serial.print("right_thrust= ");
-          Serial.println( thrust );
-    
+
+          //check backwards, if backwards is empty then:
+            if((measure_optical_distance() > 350 || (measure_optical_distance() == -1)))
+            {
+              //back the car up k-turn style to the left
+              steering_servo.write(15);
+              thrust = 85;
+              thrust_servo.write(thrust);
+  
+              //wait .5s
+              delay(500);
+  
+              //shut car off
+              thrust = 90;
+              thrust_servo.write(thrust);
+  
+              //wait .5s
+              delay(500);
+            }
+            
+            //turn wheels right,and move forward
+            steering_servo.write(165);
+            thrust = 95;
+            thrust_servo.write(thrust);
+
+            //while left is blocked, move forward
+            while(!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700))
+            {
+                   steering_servo.write(90);
+                   thrust = 95;
+                   thrust_servo.write(thrust);
+            }
+
+            //shut off car again for .5s
+            thrust = 90;
+            thrust_servo.write(thrust);
+            
+            delay(500);
+
+            //turn left same amount you turned left to go back straight
+            steering_servo.write(15);
+            thrust = 95;
+            thrust_servo.write(thrust);
         }
         else //If everything is blocked check behind you
-          {
+        {
             boolean BACKWARD_TRUE = (measure_optical_distance() > 350 || (measure_optical_distance() == -1)); 
             if (BACKWARD_TRUE)
             { 
@@ -921,7 +995,8 @@ void loop()
               Serial.print("backwards_thrust= ");
               Serial.println( thrust);
             }
-            else {
+            else 
+            {
               thrust = 90;
               steering_servo.write(90);
               thrust_servo.write( thrust );
@@ -932,9 +1007,8 @@ void loop()
               led_error_status(2); 
             }
         }
-    }
-}
-
+     }
+  }
 //------------------
 // END OF BASE CODE
 //------------------
