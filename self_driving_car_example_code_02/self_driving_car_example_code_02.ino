@@ -744,81 +744,81 @@ void loop()
 //  }
 //#endif
 //
-#if ENABLE_US2
-  // This measures the distance in millimeters from the second
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
+//#if ENABLE_US2
+//  // This measures the distance in millimeters from the second
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the second ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_2 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//  }
+//#endif
+//
+//#if ENABLE_US3
+//  // This measures the distance in millimeters from the third
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the third ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_3 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//  }
+//#endif
+//
+//#if ENABLE_US4
+//  // This measures the distance in millimeters from the fourth
+//  // ultrasonic distance sensor
+//  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
+//
+//  // If defind by the user, this displays the ultrasonic distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the fourth ultrasonic distance sensor
+//    // to the serial monitor
+//    Serial.print("ultrasonic_distance_4 = ");
+//    Serial.print( ultrasonic_distance );
+//    Serial.println(" [mm]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
+//#endif
 
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the second ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_2 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-  }
-#endif
-
-#if ENABLE_US3
-  // This measures the distance in millimeters from the third
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the third ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_3 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-  }
-#endif
-
-#if ENABLE_US4
-  // This measures the distance in millimeters from the fourth
-  // ultrasonic distance sensor
-  ultrasonic_distance = measure_ultrasonic_distance( ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4 );
-
-  // If defind by the user, this displays the ultrasonic distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the fourth ultrasonic distance sensor
-    // to the serial monitor
-    Serial.print("ultrasonic_distance_4 = ");
-    Serial.print( ultrasonic_distance );
-    Serial.println(" [mm]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
-#endif
-
-#if ENABLE_LIDAR
-  ////////////////////////////////////////////////////////////////////////////////
-  // Measure Distances with Optical Sensor                                      //
-  ////////////////////////////////////////////////////////////////////////////////
-
-  // This takes a distance measurement in millimeters from the optical distance
-  // sensor
-  optical_distance = measure_optical_distance();
-
-  // If defind by the user, this displays the optical distance measurement to
-  // the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the distance measured by the optical distance sensor
-    // to the serial monitor
-    Serial.print("optical_distance = ");
-    Serial.print( optical_distance );
-    Serial.println(" [mm]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
-#endif
+//#if ENABLE_LIDAR
+//  ////////////////////////////////////////////////////////////////////////////////
+//  // Measure Distances with Optical Sensor                                      //
+//  ////////////////////////////////////////////////////////////////////////////////
+//
+//  // This takes a distance measurement in millimeters from the optical distance
+//  // sensor
+//  optical_distance = measure_optical_distance();
+//
+//  // If defind by the user, this displays the optical distance measurement to
+//  // the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the distance measured by the optical distance sensor
+//    // to the serial monitor
+//    Serial.print("optical_distance = ");
+//    Serial.print( optical_distance );
+//    Serial.println(" [mm]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
+//#endif
 
 #if ENABLE_IMU
   ////////////////////////////////////////////////////////////////////////////////
@@ -830,26 +830,26 @@ void loop()
   euler_angles = imu_sensor.getVector( Adafruit_BNO055::VECTOR_EULER );
 
   // If defined by the user, this prints the Euler angles to the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the header showing that the Euler angles are about to be
-    // printed to the serial terminal
-    Serial.print("{ theta_x, theta_y, theta_z } = { ");
-    // This prints the X angle to the serial terminal
-    Serial.print( euler_angles.x() );
-    // This prints a comma for the displayed vector
-    Serial.print(", ");
-    // This prints the Y angle to the serial terminal
-    Serial.print( euler_angles.y() );
-    // This prints a comma for the displayed vector
-    Serial.print(", ");
-    // This prints the Z angle to the serial terminal
-    Serial.print( euler_angles.z() );
-    // This prints the closing bracket of the vector and the unit
-    Serial.println(" } [deg]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the header showing that the Euler angles are about to be
+//    // printed to the serial terminal
+//    Serial.print("{ theta_x, theta_y, theta_z } = { ");
+//    // This prints the X angle to the serial terminal
+//    Serial.print( euler_angles.x() );
+//    // This prints a comma for the displayed vector
+//    Serial.print(", ");
+//    // This prints the Y angle to the serial terminal
+//    Serial.print( euler_angles.y() );
+//    // This prints a comma for the displayed vector
+//    Serial.print(", ");
+//    // This prints the Z angle to the serial terminal
+//    Serial.print( euler_angles.z() );
+//    // This prints the closing bracket of the vector and the unit
+//    Serial.println(" } [deg]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
   if(first_five <= 5)
   {
     
@@ -862,31 +862,31 @@ void loop()
     first_five = first_five + 1;
   }
 
-  // This collects a measurement of the linear acceleration (with gravity removed)
-  // from the BNO055 inertial measurement unit in units of m/s^2
-  linear_acceleration = imu_sensor.getVector( Adafruit_BNO055::VECTOR_LINEARACCEL );
-
-  // If defined by the user, this prints the linear acceleration to the serial terminal
-  if ( PRINT_TO_SERIAL )
-  {
-    // This prints the header showing that the linear acceleration is about to be
-    // printed to the serial terminal
-    Serial.print("{ a_x, a_y, a_z } = { ");
-    // This prints the X linear acceleration to the serial terminal
-    Serial.print( linear_acceleration.x() );
-    // This prints a comma for the displayed vector
-    Serial.print(", ");
-    // This prints the Y linear acceleration to the serial terminal
-    Serial.print( linear_acceleration.y() );
-    // This prints a comma for the displayed vector
-    Serial.print(", ");
-    // This prints the Z linear acceleration to the serial terminal
-    Serial.print( linear_acceleration.z() );
-    // This prints the closing bracket of the vector and the unit
-    Serial.println(" } [m/s^2]");
-    // This prints a new line to the serial terminal
-    Serial.println("");
-  }
+//  // This collects a measurement of the linear acceleration (with gravity removed)
+//  // from the BNO055 inertial measurement unit in units of m/s^2
+//  linear_acceleration = imu_sensor.getVector( Adafruit_BNO055::VECTOR_LINEARACCEL );
+//
+//  // If defined by the user, this prints the linear acceleration to the serial terminal
+//  if ( PRINT_TO_SERIAL )
+//  {
+//    // This prints the header showing that the linear acceleration is about to be
+//    // printed to the serial terminal
+//    Serial.print("{ a_x, a_y, a_z } = { ");
+//    // This prints the X linear acceleration to the serial terminal
+//    Serial.print( linear_acceleration.x() );
+//    // This prints a comma for the displayed vector
+//    Serial.print(", ");
+//    // This prints the Y linear acceleration to the serial terminal
+//    Serial.print( linear_acceleration.y() );
+//    // This prints a comma for the displayed vector
+//    Serial.print(", ");
+//    // This prints the Z linear acceleration to the serial terminal
+//    Serial.print( linear_acceleration.z() );
+//    // This prints the closing bracket of the vector and the unit
+//    Serial.println(" } [m/s^2]");
+//    // This prints a new line to the serial terminal
+//    Serial.println("");
+//  }
 
 #endif
 
@@ -899,123 +899,52 @@ void loop()
       double thrust = 0;
       int steer = 90;
       //Code to check in front
-      if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 700)
+      if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_2, ULTRASONIC_ECHO_PIN_2) > 600 && measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 600 && measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 600)
       {    
 
         
         if(euler_angles.x() < 180)
         {
-          steer = 60;
+          steer = 70;
         }
         else
         {
-          steer = 120;
+          steer = 110;
         }
         Serial.print("x_goal= ");
         Serial.println(x_goal % 360 );
         Serial.print("steer= ");
         Serial.println( steer);
         steering_servo.write(steer);
-        thrust = 95;
+        thrust = 96;
         thrust_servo.write(thrust);
         Serial.print("forward_thrust= ");
         Serial.println( thrust);
         
         
       }
-      else //If forward is blocked
+      else if((measure_optical_distance() >  500|| (measure_optical_distance() == -1))) //If forward is blocked
       {
-        //check left first
-        if (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700 ) 
-        {
+
             //check backwards, if backwards is empty then:
-            if((measure_optical_distance() > 350 || (measure_optical_distance() == -1)))
-            {
+            
+            
+              if(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) < 450)
+              {
+                steering_servo.write(170);
+              }
+              else
+              {
+                steering_servo.write(10);
+              }
               //back the car up k-turn style
-              steering_servo.write(165);
+              
               thrust = 85;
               thrust_servo.write(thrust);
-  
-              //wait .5s
-              delay(500);
-  
-              //shut car off
-              thrust = 90;
-              thrust_servo.write(thrust);
-  
-              //wait .5s
-              delay(500);
-            }
+              delay(200);
+
             
-            //turn wheels left,and move forward
-            steering_servo.write(15);
-            thrust = 95;
-            thrust_servo.write(thrust);
-
-            //while right is blocked, move forward
-            while(!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700))
-            {
-                   steering_servo.write(90);
-                   thrust = 95;
-                   thrust_servo.write(thrust);
-            }
-
-            //shut off car again for .5s
-            thrust = 90;
-            thrust_servo.write(thrust);
             
-            delay(500);
-
-            //turn right same amount you turned left to go back straight
-            steering_servo.write(165);
-            thrust = 95;
-            thrust_servo.write(thrust);
-        }
-        else if (!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700) && (measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_3, ULTRASONIC_ECHO_PIN_3) > 700)) //Check right next
-        {
-
-          //check backwards, if backwards is empty then:
-            if((measure_optical_distance() > 350 || (measure_optical_distance() == -1)))
-            {
-              //back the car up k-turn style to the left
-              steering_servo.write(15);
-              thrust = 85;
-              thrust_servo.write(thrust);
-  
-              //wait .5s
-              delay(500);
-  
-              //shut car off
-              thrust = 90;
-              thrust_servo.write(thrust);
-  
-              //wait .5s
-              delay(500);
-            }
-            
-            //turn wheels right,and move forward
-            steering_servo.write(165);
-            thrust = 95;
-            thrust_servo.write(thrust);
-
-            //while left is blocked, move forward
-            while(!(measure_ultrasonic_distance(ULTRASONIC_TRIGGER_PIN_4, ULTRASONIC_ECHO_PIN_4) > 700))
-            {
-                   steering_servo.write(90);
-                   thrust = 95;
-                   thrust_servo.write(thrust);
-            }
-
-            //shut off car again for .5s
-            thrust = 90;
-            thrust_servo.write(thrust);
-            
-            delay(500);
-
-            //turn left same amount you turned left to go back straight
-            steering_servo.write(15);
-            thrust = 95;
-            thrust_servo.write(thrust);
         }
         else //If everything is blocked check behind you
         {
@@ -1036,10 +965,10 @@ void loop()
               Serial.print("thrust= ");
               Serial.println( thrust );
 
-              led_error_status(2); 
+              led_error_status(); 
             }
         }
-     }
+     
   }
 //------------------
 // END OF BASE CODE
